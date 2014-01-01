@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+	<!-- 将hibernate的sessionFactory配置到spring中 -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="configLocation" value="classpath:hibernate.cfg.xml" />
+	</bean>
+	
+	<!--Spring内置hibernate事务处理类 -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory"> 
+			<ref local="sessionFactory"/>
+		</property>
+	</bean>
+
+	<!-- 配置的hibernate事务的传播器  一个事物中： propagation="REQUIRED" 只读事物：read-only="true" -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="add*" propagation="REQUIRED" />
+			<tx:method name="save*" propagation="REQUIRED" />
+			<tx:method name="del*" propagation="REQUIRED" />
+			<tx:method name="update*" propagation="REQUIRED" />
+			<tx:method name="edit*" propagation="REQUIRED" />
+			<tx:method name="get*" propagation="REQUIRED"
+				read-only="true" />
+			<tx:method name="find*" propagation="REQUIRED"
+				read-only="true" />
+			<tx:method name="list*" propagation="REQUIRED" />
+			<tx:method name="do*" propagation="REQUIRED" />
+		</tx:attributes>
+	</tx:advice>
+
+	<!-- 配置拦截器哪些类的哪些方法返回值,包名,类名*Biz结尾的接口类 实现类再继承HibernateDaoSupport类 事务包装后的封装类,方法名,参数 -->
+	<aop:config>
+		<aop:pointcut id="serviceMethod"
+			expression="execution(* *..*Service.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethod" />
+	</aop:config>
+
+	<!-- Dao的实现类 name="sessionFactory"是固定死的 它是得到父类hibernateDaoSupport的属性-->
+	<bean id="loginDao" class="com.docmanager.dao.impl.LoginDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	<bean id="docManageDao" class="com.docmanager.dao.impl.DocManageDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	<bean id="docTypeDao" class="com.docmanager.dao.impl.DocTypeDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	<bean id="relationDao" class="com.docmanager.dao.impl.RelationDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	<bean id="docElementDao" class="com.docmanager.dao.impl.DocElementDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	<bean id="docMetaDao" class="com.docmanager.dao.impl.DocMetaDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	
+	<!-- Service的实现类属性-->
+	<bean id="loginService" class="com.docmanager.service.impl.LoginServiceImpl">
+		<property name="loginDao" ref="loginDao"/>
+	</bean>
+	<bean id="docAddService" class="com.docmanager.service.impl.DocAddServiceImpl">
+		<property name="docManageDao" ref="docManageDao"/>
+	</bean>
+	<bean id="docTypeService" class="com.docmanager.service.impl.DocTypeServiceImpl">
+		<property name="docTypeDao" ref="docTypeDao"/>
+	</bean>
+	<bean id="relationService" class="com.docmanager.service.impl.RelationServiceImpl">
+		<property name="relationDao" ref="relationDao"/>
+	</bean>
+	<bean id="docElementService" class="com.docmanager.service.impl.DocElementServiceImpl">
+		<property name="docElementDao" ref="docElementDao"/>
+	</bean>
+	<bean id="docMetaService" class="com.docmanager.service.impl.DocMetaServiceImpl">
+		<property name="docMetaDao" ref="docMetaDao"/>
+	</bean>
+	
+	<!--action属性-->
+	<bean id="loginAction" class="com.docmanager.action.LoginAction">
+		<property name="loginService" ref="loginService"/>
+	</bean>
+	<bean id="docAddAction" class="com.docmanager.action.DocAddAction">
+		<property name="docAddService" ref="docAddService"/>
+	</bean>
+	<bean id="docTypeAction" class="com.docmanager.action.DocTypeAction">
+		<property name="docTypeService" ref="docTypeService"/>
+	</bean>
+	<bean id="relationAction" class="com.docmanager.action.RelationAction">
+		<property name="relationService" ref="relationService"/>
+	</bean>
+	<bean id="docElementAction" class="com.docmanager.action.DocElementAction">
+		<property name="docElementService" ref="docElementService"/>
+	</bean>
+	<bean id="docMetaAction" class="com.docmanager.action.DocMetaAction">
+		<property name="docMetaService" ref="docMetaService"/>
+	</bean>
+	
+	
+</beans>

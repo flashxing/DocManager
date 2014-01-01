@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.docmanager.entity.Doc" table="doc_info">
+  <id name="docId" column="Doc_id" type="int">
+   <generator class="increment" />
+  </id>
+  <property name="type" column="Type" type="string"
+   not-null="true" />
+  <property name="title" column="Title" type="string"
+   not-null="true" />
+  <property name="author" column="Author" type="string"
+   not-null="true" />
+  <property name="year" column="Year" type="int"
+   not-null="true" />
+  <property name="time" column="Add_time" type="string"
+   not-null="true" />
+  <property name="pages" column="Pages" type="string"
+   not-null="true" />
+  <property name="publisher" column="Publisher" type="string"
+   not-null="true" />
+  <property name="docAbstract" column="Abstract" type="string"
+   not-null="true" />
+  <property name="key" column="Keywords" type="string"
+   not-null="true" />
+  <property name="url" column="URL" type="string"
+   not-null="true" />
+  <property name="userId" column="User" type="int"
+   not-null="true" />
+  <property name="rank" column="Rank" type="int"
+   not-null="true" />
+    </class>
+</hibernate-mapping>

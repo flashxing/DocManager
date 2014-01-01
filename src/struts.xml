@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC 
+	"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+	"http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+<!-- 设置浏览器是否缓存静态内容,默认值为true(生产环境下使用),开发阶段最好关闭 -->
+    <constant name="struts.serve.static.browserCache" value="false" />
+    <!-- 当struts的配置文件修改后,系统是否自动重新加载该文件,默认值为false(生产环境下使用),开发阶段最好打开 -->
+    <constant name="struts.configuration.xml.reload" value="true" />
+    <!-- 开发模式下使用,这样可以打印出更详细的错误信息 -->
+    <constant name="struts.devMode" value="true" />
+    <!--解决乱码    -->
+    <constant name="struts.i18n.encoding" value="UTF-8" />
+    
+    <package name="action" namespace="/" extends="struts-default">
+        <action name="login" class="loginAction" method="login">
+            <result name="success">/index.jsp</result>
+            <result name="admin_success">/admin.jsp</result>
+            <result name="failure">/failure.jsp</result>
+        </action>
+         <action name="docAdd" class="docAddAction" method="docAdd">
+            <result name="success">/my_literature.jsp</result>
+            <result name="failure">/failure.jsp</result>
+        </action>
+        <action name="getDocs" class="docAddAction" method="getDocs">
+            <result name="success">/my_literature.jsp</result>
+            <result name="failure">/failure.jsp</result>
+        </action>        
+        <action name="updateDoc" class="docAddAction" method="updateDoc">
+            <result name="success">/my_literature.jsp</result>
+            <result name="failure">/failure.jsp</result>
+        </action>
+        <action name="docEdit" class="docAddAction" method="getDocById">
+            <result name="success">/update.jsp</result>
+            <result name="failure">/failure.jsp</result>
+        </action>
+        <action name="docTypeAdd" class="docTypeAction" method="addDocType">
+            <result name="success">/admin.jsp</result>
+            <result name="failure">/failure.jsp</result>
+        </action>
+        <action name="docTypeDelete" class="docTypeAction" method="deleteDocType">
+            <result name="success">/admin.jsp</result>
+            <result name="failure">/failure.jsp</result>
+        </action>
+                <action name="docTypeUpdate" class="docTypeAction" method="updateDocType">
+            <result name="success">/admin.jsp</result>
+            <result name="failure">/failure.jsp</result>
+        </action>
+        <action name="getDocTypes" class="docTypeAction" method="getAllDocTypes">
+            <result name="success">/admin.jsp</result>
+            <result name="failure">/failure.jsp</result>
+        </action>
+        <action name="relationAdd" class="relationAction" method="addRelation">
+            <result name="success">/admin.jsp</result>
+            <result name="failure">/failure.jsp</result>
+        </action>
+        <action name="relationDelete" class="relationAction" method="deleteRelation">
+            <result name="success">/admin.jsp</result>
+            <result name="failure">/failure.jsp</result>
+        </action>
+        <action name="relationUpdate" class="relationAction" method="updateRelation">
+            <result name="success">/admin.jsp</result>
+            <result name="failure">/failure.jsp</result>
+        </action>
+        <action name="getRelations" class="relationAction" method="getAllRelations">
+            <result name="success">/admin.jsp</result>
+            <result name="failure">/failure.jsp</result>
+        </action>
+        
+        <action name="docElement*" class="docElementAction" method="{1}">
+            <result name="success">/admin.jsp?meta</result>
+            <result name="failure">/failure.jsp</result>
+        </action>
+                
+        <action name="docMeta*" class="docMetaAction" method="{1}">
+            <result name="success">/admin.jsp?meta</result>
+            <result name="failure">/failure.jsp</result>
+        </action>
+        
+            
+                
+    </package>
+
+</struts>

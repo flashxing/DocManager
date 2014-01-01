@@ -1,0 +1,8 @@
+.well {
+    background-clip: padding-box;
+    background-color: #FFFFFF;
+    border: 1px solid #CCCCCC;
+    border-radius: 0;
+    box-shadow: 1px 1px 0 #FFFFFF;
+}
+
